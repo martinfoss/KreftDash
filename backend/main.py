@@ -1,19 +1,17 @@
-
+import pandas as pd
 from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
-import pandas as pd
 
-# Load data
-df_all = pd.read_csv("Alle kreftformer Norge RHF 2024.csv", sep=';')
-df_breast = pd.read_csv("Brystkreft RHF Alle Stadier 2024.csv", sep=';')
+# Brug relative stier
+df_all = pd.read_csv("backend/Alle kreftformer Norge RHF 2024.csv", sep=';')
+df_breast = pd.read_csv("backend/Brystkreft RHF Alle Stadier 2024.csv", sep=';')
 
-# Combine datasets
+# Saml data
 df_all["Dataset"] = "Alle kreftformer"
 df_breast["Dataset"] = "Brystkreft"
 df = pd.concat([df_all, df_breast], ignore_index=True)
 
-# Create FastAPI app
-app = FastAPI(title="Kreftdashboard Norge")
+app = FastAPI()
 
 @app.get("/kreftformer")
 def get_kreftformer():
